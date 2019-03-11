@@ -1,0 +1,2 @@
+- Offset list input to ratio conversion . In order to be able to choose an interval list by ear with a slider UI , then convert the list of offsets to a list of frequencies as in the original script .
+ 
