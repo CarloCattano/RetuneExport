@@ -15,6 +15,10 @@ var toCentslist = [];
 const refHz = process.argv[2];      //  reference pitch
 const scl_file = process.argv[3];   //  scala_file
 
+// set server with express 
+
+
+
 if(scl_file != null){
     var instream = fs.createReadStream(scl_file);
     console.log("scl not null ");
@@ -46,7 +50,7 @@ rl.on('close', function () {
 });
 
 function outputTXT(){
-    let text = toFreqList.join(',','\n');                   // add a come between values
+    let text = toFreqList.join('\r');                   // add a coma & line end (','+'\r') between values
     fs.writeFileSync('freqsArray.txt', text, (err) => {     /// Write Values to text file
         if(err) throw err;
         console.log("Error ");
