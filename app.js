@@ -4,16 +4,21 @@
 /// for further use in the retuning of synthesizer hardware & software
 // Carlo Cattano 2019
 
-var express = require('express');  
-var app = express();  
-var server = require('http').createServer(app); 
+var express = require('express');
+var app = express();
+var server = require('http').createServer(app);
 
 server.listen(8080);
 
-app.use(express.static(__dirname + '/node_modules'));  
-app.use(express.static(__dirname + '/public')); 
-app.get('/', function(req, res,next) {  
+console.log("server listening on 8080");
+console.log("serving index.html");
+
+
+app.use(express.static(__dirname + '/node_modules'));
+app.use(express.static(__dirname + '/public'));
+app.get('/', function(req, res,next) {
     res.sendFile(__dirname + '/index.html');
+    console.log("index.html requested");
 });
 app.use(express.static('public'));
 
@@ -36,7 +41,7 @@ if(scl_file != null){
     var instream = fs.createReadStream(scl_file);
     console.log("scl not null ");
 }else{
-    var instream = fs.createReadStream('custom4.scl');
+    var instream = fs.createReadStream('./scala_files/custom4.scl');
 }
 
 const outstream = new stream;
@@ -44,11 +49,11 @@ const rl = readline.createInterface(instream, outstream);
 
 let counter = 0;
 
-rl.on('line', function (line) {                         /// READ TEXT SCALA FILE RATIO FORMATED "3/4"              
+rl.on('line', function (line) {                         /// READ TEXT SCALA FILE RATIO FORMATED "3/4"
     counter++;
     if (counter > 5 && line !== "!") {
-        let valueX = parseFloat(eval(line).toFixed(4)); // Evaluate ratio string  
-        scalaRatios.push(valueX);                       
+        let valueX = parseFloat(eval(line).toFixed(4)); // Evaluate ratio string
+        scalaRatios.push(valueX);
         calcCents(valueX);                              // Calc pitch offset in cents
     }
 });

@@ -1,2 +1,29 @@
-- Offset list input to ratio conversion . In order to be able to choose an interval list by ear with a slider UI , then convert the list of offsets to a list of frequencies as in the original script .
+Backend (app.js)
+
+- Offset list input to ratio conversion . 
+  In order to be able to choose an interval list by ear with a slider UI , then convert the list of offsets 
+  to a list of frequencies as in the original script .
  
+- Make the bridge between freqArray.txt and notesList.js to update each other.
+
+- Undo the argunment system and implement an asynchronus callback function to request a scale
+  with a given tuning file or from the index.hmtl UI
+
+
+UI (index.html)
+
+- Work out the Sliders UI from Nexus and if not working as expected look for alternatives
+
+- Implement a "Export current Tunning" button , and the UI of ResetOffsets function to reset the UI
+
+- Implement computer keyboard as note input 
+
+- Implement WEB midi for future needs
+
+- Define export targets .
+	- Scala_file formated 
+		- Cents notation
+	- Frequency array comma separated txt 
+	
+	
+- Implement formula to detune from equal temperament with sliders UI
