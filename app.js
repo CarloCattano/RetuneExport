@@ -4,6 +4,19 @@
 /// for further use in the retuning of synthesizer hardware & software
 // Carlo Cattano 2019
 
+var express = require('express');  
+var app = express();  
+var server = require('http').createServer(app); 
+
+server.listen(8080);
+
+app.use(express.static(__dirname + '/node_modules'));  
+app.use(express.static(__dirname + '/public')); 
+app.get('/', function(req, res,next) {  
+    res.sendFile(__dirname + '/index.html');
+});
+app.use(express.static('public'));
+
 const fs = require('fs');
 const readline = require('readline');
 const stream = require('stream');
