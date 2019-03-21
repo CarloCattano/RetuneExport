@@ -1,29 +1,48 @@
-subtitle {
-  font-size: 12px,
+
+html {
+	padding: 25px;
+	margin:25px
 }
+
+.main {
+	border-style: solid;
+  border-width: 5px;
+	border-color: red;
+}
+
+.subtitle {
+	font-size: 18px;
+	font-family:Arial, Helvetica, sans-serif;
+}
+.subtitle2 {
+	font-size: 14px;
+	font-family:Arial, Helvetica, sans-serif;
+}
+
 button {
-  background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
-  padding: 16px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 19px;
-  margin: 4px 2px;
-  -webkit-transition-duration: 0.4s; /* Safari */
-  transition-duration: 0.4s;
-  cursor: pointer;
+	background-color: #4caf50; /* Green */
+	border: none;
+	color: white;
+	padding: 16px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 19px;
+	margin: 4px 2px;
+	-webkit-transition-duration: 0.4s; /* Safari */
+	transition-duration: 0.4s;
+	cursor: pointer;
 }
 
 #wrapper {
-  display: flex;
-  border: 0px solid black;
+	display: flex;
+	border: 0px solid black;
 }
 #first {
-    border: 0px solid red;
-    float:left;
+	border: 0px solid red;
+	float: left;
 }
 #second {
-    border: 0px solid green;
+  border: 0px solid green;
+  margin:20px;
 }

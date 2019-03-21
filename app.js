@@ -20,7 +20,7 @@ app.get('/', function(req, res,next) {
     res.sendFile(__dirname + '/index.html');
     console.log("index.html requested");
 });
-app.use(express.static('public'));
+//app.use(express.static('public'));
 
 const fs = require('fs');
 const readline = require('readline');
@@ -35,13 +35,13 @@ const scl_file = process.argv[3];   //  scala_file
 
 // set server with express 
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if(scl_file != null){
     var instream = fs.createReadStream(scl_file);
-    console.log("scl not null ");
-}else{
-    var instream = fs.createReadStream('./scala_files/custom4.scl');
+    console.log("<-   scl file loaded   ->");
+}else{                                                              /// scala File loader
+    var instream = fs.createReadStream('./scala_files/turko-arabic_rast_on_c.scl');
 }
 
 const outstream = new stream;
@@ -49,12 +49,12 @@ const rl = readline.createInterface(instream, outstream);
 
 let counter = 0;
 
-rl.on('line', function (line) {                         /// READ TEXT SCALA FILE RATIO FORMATED "3/4"
+rl.on('line', function (line) {                                   /// READ TEXT SCALA FILE RATIO FORMATED "3/4"
     counter++;
     if (counter > 5 && line !== "!") {
-        let valueX = parseFloat(eval(line).toFixed(4)); // Evaluate ratio string
+        let valueX = parseFloat(eval(line).toFixed(4));             // Evaluate ratio string
         scalaRatios.push(valueX);
-        calcCents(valueX);                              // Calc pitch offset in cents
+        calcCents(valueX);                                          // Calc pitch offset in cents
     }
 });
 
@@ -68,7 +68,7 @@ rl.on('close', function () {
 });
 
 function outputTXT(){
-    let text = toFreqList.join('\r');                   // add a coma & line end (','+'\r') between values
+    let text = toFreqList.join(',','\r');                   // add a coma & line end (','+'\r') between values
     fs.writeFileSync('freqsArray.txt', text, (err) => {     /// Write Values to text file
         if(err) throw err;
         console.log("Error ");
