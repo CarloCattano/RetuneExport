@@ -1,9 +1,4 @@
 
-html {
-	padding: 25px;
-	margin:25px
-}
-
 .main {
 	border-style: solid;
   border-width: 5px;
@@ -31,7 +26,8 @@ button {
 	margin: 4px 2px;
 	-webkit-transition-duration: 0.4s; /* Safari */
 	transition-duration: 0.4s;
-	cursor: pointer;
+  cursor: pointer;
+  
 }
 
 #wrapper {
@@ -42,7 +38,7 @@ button {
 	border: 0px solid red;
 	float: left;
 }
-#second {
+#segundo {
   border: 0px solid green;
-  margin:20px;
+  
 }

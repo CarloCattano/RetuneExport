@@ -10,39 +10,40 @@
 <link rel="stylesheet" href="styles/basic.css">
 <script src="./scripts/NexusUI.js"></script>
 <script	src="./scripts/Tone.js"></script>
-
 <script src="./scripts/pitchManager.js"></script>
-
 <body>
   <div id="wrapper">
-    <div id="first" class="main">
-    </div>
-    <div id="second"></div>
-    <div id="f1">
-      <button type="button">Audio Test</button>  
-    </div>
+    <div id="first" class="main"></div>
+    <div id="segundo"></div>
+    <button type="button" >Test</button> 
+    <div id="f1"></div>
   </div>  
   <div id="piano"></div>
 <script>
- 
+  var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  var analyser = audioCtx.createAnalyser();
   var container = document.getElementById('first');	
-  var sliders = []; //Array of Sliders to create d
+  var sliders = []; 
+  var numBoxes = [];
 
-  var rewer = new Tone.JCReverb(0.3).toMaster();
+  var rewer = new Tone.JCReverb(0.3).toMaster(audioCtx);
   var synth = new Tone.PolySynth(6, Tone.Synth).connect(rewer);
-  
+
   rewer.wet.value = 0.4;
   Tone.context.latencyHint = 'interactive';
-  synth.volume.value = -10;
+  synth.volume.value = -18;
+  
 
-  //Number box UI for pitch 
-  var number = new Nexus.Number('#f1',{
-    'size': [60,30],
-    'value': 0,
-    'min': 0,
-    'max': 20000,
-    'step': 0.001
-  });
+  
+  for (var i = 0; i < 12; i++) {              //  Create Sliders
+    numBoxes.push(new Nexus.Number('#f1',{
+      'size': [50,25],
+      'value': 0.50,
+      'min': 0,
+      'max': 10000,
+      'step': 0.001
+    }));
+  }
 
 //  Init Tone js and dummy sound test  
   document.querySelector('button').addEventListener('click', () => testCheck());
@@ -50,7 +51,7 @@
 //  AUDIO CONTEXT START 
   function testCheck(){
     Tone.start();
-    Tone.resume;
+    Tone.resume = true;
     synth.frequency = 100;
     synth.triggerAttackRelease('C2', '8n');
   }
@@ -63,10 +64,9 @@
     'highNote': 36
   });
   ///////////////////////////////////////////////////////
-  //Tone.Volume.value = -4;
   /// DIV creation
   /// SLIDERS
-  //freeverb.dampening.value = 200;
+
   htmlString = '';
 
   for(var i=0; i<12; i++){ 
@@ -86,6 +86,7 @@
     sliders[i].mode = 'absolute';
     sliders[i].value = 0.5;
     sliders[i].resize(23,100);
+    numBoxes[i].link(sliders[i]);
   } 
 
   sliders.forEach(function(element) {
@@ -94,28 +95,30 @@
     });
   });
 
-
-  /// LINK NUMBERBOX TO DIAL UI 
-  number.link(sliders[1]);
-
   //   PLAY THE CREATED TUNNING 
   piano.on('change',function(v) {
-    /// v.note v.state
-    //synth.frequency = notesList[v.note];
-
     if(v.state == true){
-      synth.triggerAttack(notesList[v.note],"+0.05");
+      synth.triggerAttack(notesList[v.note-1],"+0.05");
     }else{
-      synth.triggerRelease(notesList[v.note],"+0.05");
+      synth.triggerRelease(notesList[v.note-1],"+0.05");
     }
   });  
 
   function ResetOffsets(){
     for(let i = 0;i<12;i++){
       sliders[i].value = 0.5;
+      numBoxes[i].value = 0.5;
     }
   }
                   
 </script>
+<p>Canvas ctx</p>
+<script src="./scripts/visualizer.js"></script>
+<div>
+    <canvas id="myCanvas" width="400" height="200" style="position: absolute; z-index: 0">"></canvas>
+</div>
+<div>
+  <canvas id="myCanvas2" width="200" height="100" style="position: absolute; z-index: 1"></canvas>></canvas>
+</div>
 </body>
 </html>

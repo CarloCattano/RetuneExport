@@ -10,17 +10,15 @@ var server = require('http').createServer(app);
 
 server.listen(8080);
 
-console.log("server listening on 8080");
-console.log("serving index.html");
+console.log("<----server listening on 8080----> \n");
+console.log(".....serving index.html \n");
 
 
 app.use(express.static(__dirname + '/node_modules'));
 app.use(express.static(__dirname + '/public'));
 app.get('/', function(req, res,next) {
     res.sendFile(__dirname + '/index.html');
-    console.log("index.html requested");
 });
-//app.use(express.static('public'));
 
 const fs = require('fs');
 const readline = require('readline');
@@ -42,6 +40,7 @@ if(scl_file != null){
     console.log("<-   scl file loaded   ->");
 }else{                                                              /// scala File loader
     var instream = fs.createReadStream('./scala_files/turko-arabic_rast_on_c.scl');
+    console.log('\n'+"<-   default rast scl file loaded   ->"+'\n');
 }
 
 const outstream = new stream;
