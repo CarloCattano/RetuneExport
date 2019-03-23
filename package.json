@@ -1,1 +1,9 @@
-{ "scripts": { "start": "node app.js"} }
+{
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "nodemon": "^1.18.10",
+    "socket.io": "^2.2.0"
+  }
+}

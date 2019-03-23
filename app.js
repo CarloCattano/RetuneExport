@@ -5,21 +5,9 @@
 // Carlo Cattano 2019
 
 var express = require('express');
-var app = express();
-var server = require('http').createServer(app);
-
-server.listen(8080);
-
-console.log("<----server listening on 8080----> \n");
-console.log(".....serving index.html \n");
-
-
-app.use(express.static(__dirname + '/node_modules'));
-app.use(express.static(__dirname + '/public'));
-app.get('/', function(req, res,next) {
-    res.sendFile(__dirname + '/index.html');
-});
-
+const app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
 const fs = require('fs');
 const readline = require('readline');
 const stream = require('stream');
@@ -28,10 +16,36 @@ var scalaRatios = [];
 var toFreqList = [];
 var toCentslist = [];
 
+var clients = [];
+
+app.use(express.static(__dirname + '/node_modules'));
+app.use(express.static(__dirname + '/public'));
+app.get('/', function(req, res,next) {
+    res.sendFile(__dirname + '/index.html');
+});
+
+server.listen(8080);
+
+console.log("<----server listening on 8080----> \n");
+console.log(".....serving index.html \n");
+
+io.on('connection', function(socket){
+
+    console.log('user '+ socket.id +' connected');
+    clients.push(socket.id);
+    console.log("Clients : \n"+clients.length);
+
+    socket.on('disconnect', function() {
+        var i = clients.indexOf(socket);
+        console.log('user'+ i + " disconected");
+        clients.splice(i, 1);
+        console.log(clients.length+" Conected users : \n "  );
+     });
+  });
+
+///////////////////////////////////////////////////////////////////////////////////////////////
 const refHz = process.argv[2];      //  reference pitch
 const scl_file = process.argv[3];   //  scala_file
-
-// set server with express 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

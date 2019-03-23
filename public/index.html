@@ -9,8 +9,10 @@
 
 <link rel="stylesheet" href="styles/basic.css">
 <script src="./scripts/NexusUI.js"></script>
+<script src="./scripts/socket.io.js"></script>
 <script	src="./scripts/Tone.js"></script>
 <script src="./scripts/pitchManager.js"></script>
+
 <body>
   <div id="wrapper">
     <div id="first" class="main"></div>
@@ -20,9 +22,12 @@
   </div>  
   <div id="piano"></div>
 <script>
+
+  var socket = io(); // io(xolo.dauvi.org:8080);
   var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  var analyser = audioCtx.createAnalyser();
+
   var container = document.getElementById('first');	
+
   var sliders = []; 
   var numBoxes = [];
 
@@ -33,14 +38,13 @@
   Tone.context.latencyHint = 'interactive';
   synth.volume.value = -18;
   
-
   
   for (var i = 0; i < 12; i++) {              //  Create Sliders
     numBoxes.push(new Nexus.Number('#f1',{
       'size': [50,25],
-      'value': 0.50,
-      'min': 0,
-      'max': 10000,
+      'value': 0.0,
+      'min': -1.0,
+      'max': 1.0,
       'step': 0.001
     }));
   }
@@ -84,7 +88,9 @@
 
   for(var i = 0;i<12;i++){
     sliders[i].mode = 'absolute';
-    sliders[i].value = 0.5;
+    sliders[i].value = 0.0;
+    sliders[i].min = -1.0;
+    sliders[i].max = 1.0;
     sliders[i].resize(23,100);
     numBoxes[i].link(sliders[i]);
   } 
@@ -97,17 +103,19 @@
 
   //   PLAY THE CREATED TUNNING 
   piano.on('change',function(v) {
+    let thisnote = notesList[v.note-1];
+
     if(v.state == true){
-      synth.triggerAttack(notesList[v.note-1],"+0.05");
+      synth.triggerAttack(thisnote,"+0.05");
     }else{
-      synth.triggerRelease(notesList[v.note-1],"+0.05");
+      synth.triggerRelease(thisnote,"+0.05");
     }
   });  
 
   function ResetOffsets(){
     for(let i = 0;i<12;i++){
-      sliders[i].value = 0.5;
-      numBoxes[i].value = 0.5;
+      sliders[i].value = 0.0;
+      numBoxes[i].value = 0.0;
     }
   }
                   

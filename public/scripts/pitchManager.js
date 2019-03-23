@@ -1,14 +1,13 @@
 
 
-//var scale1 = [32,33,34,35,36,37,38,39,40,41,42,43,44];
-
 var keyb = [65,87,83,69,68,70,84,71,90,72,85,74,75];
-///////////////////////////////////////////////////////
+//////////////////////////////////////////////////
 
-// Keyboard input ?? paralell for polyphony?
-var keyAllowed = {};
+var keyAllowed = {};                             
 var octOffset = 23;
 
+
+//////   KEYBOARD LAYOUT
 
 document.addEventListener('keydown', function(e) {
     if (keyAllowed [e.which] === false) return; //Filter repetitions
@@ -17,7 +16,7 @@ document.addEventListener('keydown', function(e) {
 	if(keyb.includes(e.keyCode)){
 		let playednote = keyb.indexOf(e.keyCode);
 		/// played note -> notesList query
-		synth.triggerAttack(notesList[playednote+octOffset],"+0.04");
+		synth.triggerAttack(notesList[playednote+octOffset],"+0.01");
 	}
 	//console.log(e.keyCode);
 });
@@ -26,19 +25,23 @@ document.addEventListener('keyup', function(e) {
     keyAllowed [e.which] = true;
     
 if(keyb.includes(e.keyCode)){
+
 	let playednote = keyb.indexOf(e.keyCode);
-	synth.triggerRelease(notesList[playednote+octOffset],"+0.04");
+    synth.triggerRelease(notesList[playednote+octOffset],"+0.01");
+    
 }
     //Octave Up & down Ableton Live Layout YX / ZX	
 	if(e.keyCode == 88 && octOffset <= 115){
-		octOffset += 12;
+        octOffset += 12;
 	}else if(e.keyCode == 89 && octOffset >= 0){
-		octOffset -= 12;
-	}
+        octOffset -= 12;
+    }
 });
 
-// NOTES ARRAY
 //////////////////////////////////////////////////////////////////////////
+//                           NOTES ARRAY
+//////////////////////////////////////////////////////////////////////////
+
 var notesList = [
     29.0042,30.8660,33.7508,33.9542,36.7510,41.2500,46.3017,49.1068,50.6247,50.9300,55.1238,
     55.0000,58.0085,61.7320,67.5015,67.9085,73.5020,82.5000,92.6035,98.2135,101.2495,101.8600,
