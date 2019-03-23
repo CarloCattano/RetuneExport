@@ -5,5 +5,28 @@
   "dependencies": {
     "nodemon": "^1.18.10",
     "socket.io": "^2.2.0"
-  }
+  },
+  "name": "retuneexport",
+  "description": "Retune Export",
+  "version": "1.0.0",
+  "main": "app.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CarloCattano/RetuneExport.git"
+  },
+  "keywords": [
+    "microtonal",
+    "audio",
+    "synthesis",
+    "tunning",
+    "temperament",
+    "scala"
+  ],
+  "author": "Carlo Cattano",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CarloCattano/RetuneExport/issues"
+  },
+  "homepage": "https://github.com/CarloCattano/RetuneExport#readme"
 }

@@ -1,7 +1,22 @@
+html,body {
+	margin: 0;
+        flex: 0 1 auto;
+        align-self: center;
+        width: 100%
+        max-width: 900px;
+        height: 100%;
+        max-height: 600px;
+        background:#fafafa;
+        -webkit-box-shadow: 0px 0px 96px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 0px 0px 96px 0px rgba(0,0,0,0.75);
+        box-shadow: 0px 0px 96px 0px rgba(0,0,0,0.75);
+}
 
 .main {
+	position:relative;
+	text-align:center;
 	border-style: solid;
-  border-width: 5px;
+  	border-width: 5px;
 	border-color: red;
 }
 
@@ -26,7 +41,7 @@ button {
 	margin: 4px 2px;
 	-webkit-transition-duration: 0.4s; /* Safari */
 	transition-duration: 0.4s;
-  cursor: pointer;
+  	cursor: pointer;
   
 }
 

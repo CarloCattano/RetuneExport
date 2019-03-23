@@ -4,7 +4,7 @@
 /// for further use in the retuning of synthesizer hardware & software
 // Carlo Cattano 2019
 
-const express = require('express');
+var express = require('express');
 const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io').listen(server);
@@ -17,7 +17,6 @@ var toFreqList = [];
 var toCentslist = [];
 
 var clients = [];
-var sessions = [];
 
 app.use(express.static(__dirname + '/node_modules'));
 app.use(express.static(__dirname + '/public'));
@@ -33,30 +32,15 @@ console.log(".....serving index.html \n");
 io.on('connection', function(socket){
         var socketId = socket.id;
 	var clientIp = socket.request.connection.remoteAddress;
-   	
-	console.log('user '+ socket.id +' connected '+ clientIp.substr(7) );
-   	console.log("\t \t \t \t \t @ " + getDateTime());
-	sessions.push(socketId);
-    	if(!clients.includes(clientIp.substr(7))){
-		clients.push(clientIp.substr(7));
-	}
-	
-	console.log("Runing Sessions :  "+ sessions.length);
-	console.log("clients :"+ clients.length);
+   	console.log('user '+ socket.id +' connected '+ clientIp );
+   	clients.push(clientIp);
+    	console.log("Clients : \n"+clients.length);
 
     socket.on('disconnect', function() {
-        var i = sessions.indexOf(socket);
-	var y = clients.indexOf(clientIp.substr(7));
-	console.log("client "+ y + " disconected");
-        console.log('session'+ i + " Terminated ");
-       
-	sessions.splice(i, 1);
-
-	if(clients.indexOf(clientIp.substr(7))){
-		clients.splice(y, 1);
-        }
-
-	console.log(sessions.length+" Conected users : \n "  );
+        var i = clients.indexOf(socket);
+        console.log('user'+ i + " disconected");
+        clients.splice(i, 1);
+        console.log(clients.length+" Conected users : \n "  );
      });
   });
 
@@ -68,10 +52,10 @@ const scl_file = process.argv[3];   //  scala_file
 
 if(scl_file != null){
     var instream = fs.createReadStream(scl_file);
-    console.log("\n <-   scl file loaded   ->");
+    console.log("<-   scl file loaded   ->");
 }else{                                                              /// scala File loader
     var instream = fs.createReadStream('./scala_files/turko-arabic_rast_on_c.scl');
-    console.log("<-   default rast scl file loaded   ->"+'\n');
+    console.log('\n'+"<-   default rast scl file loaded   ->"+'\n');
 }
 
 const outstream = new stream;
@@ -95,7 +79,6 @@ rl.on('close', function () {
     console.log("nº notes : "+ toFreqList.length);
     console.log("scala ratios size : "+ scalaRatios.length);
     console.log(scalaRatios);
-    console.log("<------- Used Ratios ------->\n \n");	
 });
 
 function outputTXT(){
@@ -104,7 +87,7 @@ function outputTXT(){
         if(err) throw err;
         console.log("Error ");
     }); 
-    }
+}
 
 function calcCents(x){                                      /// Gets the list of pitchbend
     var centsOut = 1200.0 * Math.log(x) / Math.log(2);
@@ -133,30 +116,4 @@ function getFreqs(){
         }
     }
     toFreqList.splice(toFreqList.length-5, toFreqList.length);
-}
-
-
-function getDateTime() {
-
-    var date = new Date();
-
-    var hour = date.getHours();
-    hour = (hour < 10 ? "0" : "") + hour;
-
-    var min  = date.getMinutes();
-    min = (min < 10 ? "0" : "") + min;
-
-    var sec  = date.getSeconds();
-    sec = (sec < 10 ? "0" : "") + sec;
-
-    var year = date.getFullYear();
-
-    var month = date.getMonth() + 1;
-    month = (month < 10 ? "0" : "") + month;
-    
-    var day = date.getDate();
-    day = (day < 10 ? "0" : "")+day;	
-
-    return  day + "/"+month + "/"+ year+"  " + hour + ":" + min;
-
 }

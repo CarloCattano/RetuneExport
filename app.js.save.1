@@ -35,7 +35,7 @@ io.on('connection', function(socket){
 	var clientIp = socket.request.connection.remoteAddress;
    	
 	console.log('user '+ socket.id +' connected '+ clientIp.substr(7) );
-   	console.log("\t \t \t \t \t @ " + getDateTime());
+   	console.log(" @ " + getDateTime());
 	sessions.push(socketId);
     	if(!clients.includes(clientIp.substr(7))){
 		clients.push(clientIp.substr(7));
@@ -153,10 +153,8 @@ function getDateTime() {
 
     var month = date.getMonth() + 1;
     month = (month < 10 ? "0" : "") + month;
-    
     var day = date.getDate();
-    day = (day < 10 ? "0" : "")+day;	
+    day = (day < 10 ? "0" : "")+day;
 
     return  day + "/"+month + "/"+ year+"  " + hour + ":" + min;
-
 }

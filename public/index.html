@@ -23,7 +23,7 @@
   <div id="piano"></div>
 <script>
 
-  var socket = io(); // io(xolo.dauvi.org:8080);
+  var socket = io("xolo.dauvi.org:8080"); // set your ip here  + :8000
   var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
   var container = document.getElementById('first');	
