@@ -17,17 +17,30 @@
   <div id="wrapper">
     <div id="first" class="main"></div>
     <div id="segundo"></div>
-    <button type="button" >Test</button> 
+    <button type="button" >Load Rast</button> 
     <div id="f1"></div>
   </div>  
   <div id="piano"></div>
 <script>
 
-  var socket = io("xolo.dauvi.org:8080"); // set your ip here  + :8000
-  var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  var socket = io("localhost:8080");//io("xolo.dauvi.org:8080"); // set your ip here  + :8000
+ 
+  socket.on('hello', function (data) {
+    console.log(data);
+  });
 
+  socket.on('s_ratios', function (data) {       // Get ratios from server
+    var ratio = data.ratio; 
+    var s_freq = data.freq;
+    for(let i=0;i<sliders.length;i++){
+      sliders[i].value = data.ratio[i];
+    }
+  });
+
+  var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   var container = document.getElementById('first');	
 
+  var s_ratios = [];
   var sliders = []; 
   var numBoxes = [];
 
@@ -37,7 +50,6 @@
   rewer.wet.value = 0.4;
   Tone.context.latencyHint = 'interactive';
   synth.volume.value = -18;
-  
   
   for (var i = 0; i < 12; i++) {              //  Create Sliders
     numBoxes.push(new Nexus.Number('#f1',{
@@ -58,6 +70,8 @@
     Tone.resume = true;
     synth.frequency = 100;
     synth.triggerAttackRelease('C2', '8n');
+
+    socket.emit('loadScala', 1);
   }
   
   ///	PIANO UI
@@ -67,7 +81,7 @@
     'lowNote': 24,
     'highNote': 36
   });
-  ///////////////////////////////////////////////////////
+  
   /// DIV creation
   /// SLIDERS
 
@@ -87,20 +101,27 @@
   }
 
   for(var i = 0;i<12;i++){
-    sliders[i].mode = 'absolute';
-    sliders[i].value = 0.0;
-    sliders[i].min = -1.0;
-    sliders[i].max = 1.0;
-    sliders[i].resize(23,100);
-    numBoxes[i].link(sliders[i]);
+      sliders[i].mode = 'absolute';
+      sliders[i].value = 0.0;
+      sliders[i].min = 1.0;
+      sliders[i].max = 2.0;
+      sliders[i].resize(23,100);
+      numBoxes[i].link(sliders[i]);
   } 
 
   sliders.forEach(function(element) {
-    element.on('change',function(v){
-      //console.log(v.toFixed(2)+" Slider");
-    });
+      element.on('change',function(v){
+        var index = sliders.indexOf(element);
+        
+        // --> change array notesList
+        let oct_index = index;
+        for(let oct=1;oct<=1200;oct*=2){
+            notesList[oct_index] = (v * (440.0/8)) * oct ;
+            console.log(oct_index);
+            oct_index += 12;
+        }
+      });
   });
-
   //   PLAY THE CREATED TUNNING 
   piano.on('change',function(v) {
     let thisnote = notesList[v.note-1];
@@ -118,9 +139,9 @@
       numBoxes[i].value = 0.0;
     }
   }
-                  
+  
 </script>
-<p>Canvas ctx</p>
+<p>AUDIO GRAPH</p>
 <script src="./scripts/visualizer.js"></script>
 <div>
     <canvas id="myCanvas" width="400" height="200" style="position: absolute; z-index: 0">"></canvas>

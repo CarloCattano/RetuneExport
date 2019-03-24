@@ -31,16 +31,21 @@ console.log("<----server listening on 8080----> \n");
 console.log(".....serving index.html \n");
 
 io.on('connection', function(socket){
-        var socketId = socket.id;
+    var socketId = socket.id;
 	var clientIp = socket.request.connection.remoteAddress;
    	
 	console.log('user '+ socket.id +' connected '+ clientIp.substr(7) );
-   	console.log("\t \t \t \t \t @ " + getDateTime());
+    console.log("\t \t \t \t \t @ " + getDateTime());
+        
 	sessions.push(socketId);
     	if(!clients.includes(clientIp.substr(7))){
 		clients.push(clientIp.substr(7));
 	}
-	
+
+    socket.on('loadScala',function(){
+        io.emit('s_ratios',{ ratio: scalaRatios, freq: toFreqList });
+    });
+    
 	console.log("Runing Sessions :  "+ sessions.length);
 	console.log("clients :"+ clients.length);
 
@@ -84,7 +89,7 @@ rl.on('line', function (line) {                                   /// READ TEXT 
     if (counter > 5 && line !== "!") {
         let valueX = parseFloat(eval(line).toFixed(4));             // Evaluate ratio string
         scalaRatios.push(valueX);
-        calcCents(valueX);                                          // Calc pitch offset in cents
+                                        // Calc pitch offset in cents
     }
 });
 
