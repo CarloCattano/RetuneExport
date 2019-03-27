@@ -16,8 +16,6 @@ UI (index.html)
 
 - Implement a "Export current Tunning" button , and the UI of ResetOffsets function to reset the UI
 
-- Implement computer keyboard as note input 
-
 - Implement WEB midi for future needs
 
 - Define export targets .
@@ -26,4 +24,4 @@ UI (index.html)
 	- Frequency array comma separated txt 
 	
 	
-- Implement formula to detune from equal temperament with sliders UI
+
