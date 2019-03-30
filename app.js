@@ -89,7 +89,7 @@ rl.on('line', function (line) {                                   /// READ TEXT 
     if (counter > 5 && line !== "!") {
         let valueX = parseFloat(eval(line).toFixed(4));             // Evaluate ratio string
         scalaRatios.push(valueX);
-                                        // Calc pitch offset in cents
+        calcCents(valueX);     // Calc pitch offset in cents
     }
 });
 
@@ -104,7 +104,7 @@ rl.on('close', function () {
 });
 
 function outputTXT(){
-    let text = toFreqList.join(',','\r');                   // add a coma & line end (','+'\r') between values
+    let text = toFreqList.join(',');                   // add a coma & line end (','+'\r') between values
     fs.writeFileSync('freqsArray.txt', text, (err) => {     /// Write Values to text file
         if(err) throw err;
         console.log("Error ");
@@ -126,18 +126,22 @@ function getFreqs(){
         var referenceHz = 440/16;
     }
 
+    scalaRatios.unshift(1);
+    //scalaRatios.pop();
     toCentslist.unshift(100);
-    toCentslist.push(1200);
+  //  toCentslist.push(1200); if scala file is 12
 
     let result;
 
     for(oct;oct<=1200;oct*=2){
         for(let y=0;y<scalaRatios.length;y++){
             result = (scalaRatios[y] * referenceHz )* oct ;
-            toFreqList.push(result.toFixed(4));
+            toFreqList.push(result.toFixed(5));
         }
     }
+    console.log(" Freq List \r " + toFreqList.length + " \r to cents list length " + toCentslist + " \r to cents \r "+toCentslist);
     toFreqList.splice(toFreqList.length-5, toFreqList.length);
+   
 }
 
 
