@@ -13,15 +13,19 @@
 <script	src="./scripts/Tone.js"></script>
 <script src="./scripts/pitchManager.js"></script>
 <script src="./scripts/midi_manager.js"></script>
+<script src="./scripts/notesList.js"></script>
 
 <body>
   <div id="wrapper">
     <div id="first" class="main"></div>
-    <div id="segundo"></div>
-    <button type="button" >Load Rast</button> 
-    <div id="f1"></div>
+    <div id="segundo">
+    </div>
+     <div id="f1" style="margin-bottom:50px padding:50px;"></div>
+     <div id="piano"><button type="button" >Load Rast</button> </div>
+    
+   
   </div>  
-  <div id="piano"></div>
+  
 <script>
 
   var socket = io("localhost:8080");// io("xolo.dauvi.org:8080"); // set your ip here  + :8000
@@ -105,7 +109,7 @@
 
   for(var i=0; i<12; i++){ 
     //style="float:left;margin: 2px 2px 3px 2px;" 
-    htmlString += '<div class="mySlider" style="float:left;margin: 2px 2px 6px 3px;"  id="'+ 
+    htmlString += '<div class="mySlider" display:block ;margin: 2px 2px 6px 3px;"  id="'+ 
     "slider"+i +'"></div>';
   }
   container.insertAdjacentHTML('beforeend', htmlString);
@@ -117,12 +121,14 @@
   }
 
   for(var i = 0;i<12;i++){
-      sliders[i].mode = 'absolute';
-      sliders[i].value = 0.00;
+      sliders[i].resize(300,30);
+      sliders[i].mode = 'relative';
+      sliders[i].value = 0.50;
       sliders[i].min = 1.000;
       sliders[i].max = 2.000;
-      sliders[i].resize(23,100);
+      
       numBoxes[i].link(sliders[i]);
+      // add interval label
   } 
 
   sliders.forEach(function(element) {
