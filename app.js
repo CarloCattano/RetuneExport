@@ -11,6 +11,8 @@ const io = require('socket.io').listen(server);
 const fs = require('fs');
 const readline = require('readline');
 const stream = require('stream');
+const clc = require('cli-color');
+console.log(clc.red('Text in red'));
 
 var scalaRatios = [];
 var toFreqList = [];
@@ -46,7 +48,7 @@ io.on('connection', function(socket){
         io.emit('s_ratios',{ ratio: scalaRatios, freq: toFreqList });
     });
     
-	console.log("Runing Sessions :  "+ sessions.length);
+	console.log(clc.yellow("Runing Sessions :  "+ sessions.length));
 	console.log("clients :"+ clients.length);
 
     socket.on('disconnect', function() {
@@ -75,7 +77,7 @@ if(scl_file != null){
     var instream = fs.createReadStream(scl_file);
     console.log("\n <-   scl file loaded   ->");
 }else{                                                              /// scala File loader
-    var instream = fs.createReadStream('./scala_files/turko-arabic_rast_on_c.scl');
+    var instream = fs.createReadStream('./scala_files/turkish_24.scl');
     console.log("<-   default rast scl file loaded   ->"+'\n');
 }
 
@@ -97,10 +99,10 @@ rl.on('close', function () {
     getFreqs();
     outputTXT();
     console.log("Nº cents list : "+ toCentslist.length);
-    console.log("nº notes : "+ toFreqList.length);
-    console.log("scala ratios size : "+ scalaRatios.length);
+    console.log(clc.green("\n nº notes : "+ toFreqList.length));
+    console.log(clc.green("\n scala ratios size : "+ scalaRatios.length));
     console.log(scalaRatios);
-    console.log("<------- Used Ratios ------->\n \n");	
+    console.log("\n <------- Used Ratios ------->\n \n");	
 });
 
 function outputTXT(){
@@ -133,7 +135,7 @@ function getFreqs(){
 
     let result;
 
-    for(oct;oct<=1200;oct*=2){
+    for(oct;oct<1200;oct*=2){
         for(let y=0;y<scalaRatios.length;y++){
             result = (scalaRatios[y] * referenceHz )* oct ;
             toFreqList.push(result.toFixed(5));
@@ -143,7 +145,6 @@ function getFreqs(){
     toFreqList.splice(toFreqList.length-5, toFreqList.length);
    
 }
-
 
 function getDateTime() {
 

@@ -3,6 +3,7 @@
     "start": "node app.js"
   },
   "dependencies": {
+    "cli-color": "^1.4.0",
     "express": "^4.16.4",
     "socket.io": "^2.2.0",
     "socketio": "^1.0.0"

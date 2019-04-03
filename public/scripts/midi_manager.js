@@ -32,12 +32,7 @@ function onMIDIMessage(event) {
     type = data[0] & 0xf0, // channel agnostic message type. Thanks, Phil Burk.
     note = data[1],
     velocity = data[2];
-    // with pressure and tilt off
-    // note off: 128, cmd: 8 
-    // note on: 144, cmd: 9
-    // pressure / tilt on
-    // pressure: 176, cmd 11: 
-    // bend: 224, cmd: 14
+
     switch (type) {
         case 144: // noteOn message 
              noteOn(note, velocity);
@@ -47,15 +42,14 @@ function onMIDIMessage(event) {
             break;
         case 176: //modwheel
             switch(note){
-            case 1:
-                modWheelMap(note,velocity);
-                break;
-            case 22:
-                synth.voices.modulationFrequency = velocity/127 ;
-                break;
+                case 1:
+                    modWheelMap(note,velocity);
+                    break;
+                case 22:
+                    //synth.voices.modulationFrequency = velocity/127 ;
+                    break;
             }
     }
-
    // console.log('data', data, 'cmd', cmd, 'channel', channel);
 }
 function onStateChange(event) {
@@ -85,12 +79,15 @@ function noteOff(midiNote, velocity) {
     //synth.triggerRelease(notesList[midiNote],"+0.01");
     //player(midiNote, velocity);
 }
-
+function flushAll(){
+    for(let a = 0;a<notesList.length;a++){
+        synth.triggerRelease(notesList[note],"+0.002");
+    }
+}
 
 function onMIDIFailure(e) {
     console.log("No access to MIDI devices or your browser doesn't support WebMIDI API. Please use WebMIDIAPIShim " + e);
 }
-
 
 // utility functions
 function randomRange(min, max) {
@@ -102,5 +99,5 @@ function rangeMap(x, a1, a2, b1, b2) {
 }
 
 function modWheelMap(n,v){
-    filter.frequency.linearRampTo(rangeMap(v,0,127,60,2000),0.003);
+    filter.frequency.linearRampTo(rangeMap(v,0,127,10,2000),0.003);
 }
